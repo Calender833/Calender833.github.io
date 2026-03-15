@@ -2,15 +2,11 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>我的个人网站</title>
   <style>
 
-    /* ===== 基础 ===== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: "微软雅黑", sans-serif;
@@ -18,7 +14,6 @@
       color: #1a1a18;
     }
 
-    /* ===== 导航栏 ===== */
     nav {
       display: flex;
       justify-content: space-between;
@@ -43,7 +38,6 @@
 
     nav ul a:hover { color: #1a1a18; }
 
-    /* ===== 通用区块 ===== */
     .section {
       max-width: 680px;
       margin: 0 auto;
@@ -59,23 +53,11 @@
       margin-bottom: 12px;
     }
 
-    .section h2 {
-      font-size: 30px;
-      margin-bottom: 16px;
-    }
+    .section h2 { font-size: 30px; margin-bottom: 16px; }
 
-    .section p {
-      font-size: 16px;
-      line-height: 1.8;
-      color: #555;
-    }
+    .section p { font-size: 16px; line-height: 1.8; color: #555; }
 
-    /* ===== Hero 首屏 ===== */
-    .hero h1 {
-      font-size: 44px;
-      line-height: 1.2;
-      margin-bottom: 18px;
-    }
+    .hero h1 { font-size: 44px; line-height: 1.2; margin-bottom: 18px; }
 
     .btn {
       display: inline-block;
@@ -90,7 +72,6 @@
 
     .btn:hover { background-color: #333; }
 
-    /* ===== 技能标签 ===== */
     .skills {
       display: flex;
       flex-wrap: wrap;
@@ -106,7 +87,6 @@
       color: #5a5040;
     }
 
-    /* ===== 博客文章列表 ===== */
     .post {
       display: flex;
       justify-content: space-between;
@@ -123,7 +103,6 @@
 
     .post-date { font-size: 13px; color: #aaa; }
 
-    /* ===== 联系方式 ===== */
     .contact-row {
       display: flex;
       gap: 12px;
@@ -145,7 +124,6 @@
       background: #f7f5f0;
     }
 
-    /* ===== 页脚 ===== */
     footer {
       text-align: center;
       padding: 32px;
@@ -153,6 +131,54 @@
       color: #bbb;
     }
 
+    /* 深色模式 */
+    body.dark { background-color: #1a1a18; color: #f0ece4; }
+    body.dark nav { background-color: #1a1a18; border-color: #333; }
+    body.dark .section { border-color: #333; }
+    body.dark .post { border-color: #333; }
+    body.dark .post-title { color: #f0ece4; }
+    body.dark .skill-pill { background: #2a2a28; color: #c0b89a; }
+    body.dark .contact-chip { background: #2a2a28; border-color: #444; color: #ccc; }
+    body.dark footer { border-color: #333; }
+
+    /* 滚动动画 */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* ===== 手机适配（屏幕宽度小于 600px 时生效）===== */
+@media (max-width: 600px) {
+
+  /* 导航栏在手机上竖排 */
+  nav {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px;
+    text-align: center;
+  }
+
+  /* 区块左右边距缩小 */
+  .section {
+    padding: 40px 20px;
+  }
+
+  /* 标题字体缩小 */
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  /* 联系方式竖排 */
+  .contact-row {
+    flex-direction: column;
+  }
+
+}
   </style>
 </head>
 <body>
@@ -165,10 +191,15 @@
       <li><a href="#blog">博客</a></li>
       <li><a href="#contact">联系</a></li>
     </ul>
+    <button id="dark-btn" onclick="toggleDark()"
+      style="background:none; border:1px solid #ccc; border-radius:6px;
+             padding:6px 14px; cursor:pointer; font-size:13px; color:#666;">
+      🌙 深色模式
+    </button>
   </nav>
 
   <!-- 首屏 Hero -->
-  <div class="section hero">
+  <div class="section hero fade-in">
     <p class="section-label">✦ 欢迎来到我的小站</p>
     <h1>你好，我是luchen 👋</h1>
     <p>一个热爱学习的人。这里记录我的思考、学习笔记和成长过程。</p>
@@ -176,7 +207,7 @@
   </div>
 
   <!-- 关于我 -->
-  <div class="section" id="about">
+  <div class="section fade-in" id="about">
     <p class="section-label">About</p>
     <h2>关于我</h2>
     <p>我是一名正在学习编程的学生，对前端开发很感兴趣。我相信记录和分享是最好的学习方式，所以建了这个网站。</p>
@@ -190,13 +221,15 @@
   </div>
 
   <!-- 博客 -->
-  <div class="section" id="blog">
+  <div class="section fade-in" id="blog">
     <p class="section-label">Blog</p>
     <h2>最近文章</h2>
-    <div class="post">
-      <span class="post-title">我为什么要搭建这个网站</span>
-      <span class="post-date">2026-03-15</span>
-    </div>
+    <a href="post1.html" style="text-decoration: none;">
+  <div class="post">
+    <span class="post-title">我为什么要搭建这个网站</span>
+    <span class="post-date">2026-03-15</span>
+  </div>
+</a>
     <div class="post">
       <span class="post-title">HTML 是什么？我学到的第一件事</span>
       <span class="post-date">2026-03-10</span>
@@ -208,19 +241,48 @@
   </div>
 
   <!-- 联系 -->
-  <div class="section" id="contact">
+  <div class="section fade-in" id="contact">
     <p class="section-label">Contact</p>
     <h2>联系我</h2>
     <p>欢迎交流，不管是学习问题还是合作想法。</p>
     <div class="contact-row">
       <span class="contact-chip">✉️ chenluzlin@gmail.com</span>
-      <span class="contact-chip">🐙 GitHub:@Calender833</span>
-      <span class="contact-chip">🐦 Twitter:None</span>
+      <span class="contact-chip">🐙 GitHub: @Calender833</span>
+      <span class="contact-chip">🐦 Twitter: None</span>
     </div>
   </div>
 
   <!-- 页脚 -->
   <footer>© 2026 我的空间 · 用 HTML & CSS 亲手搭建</footer>
 
+<script>
+  const savedMode = localStorage.getItem("darkMode");
+  if (savedMode === "true") {
+    document.body.classList.add("dark");
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById("dark-btn").textContent = "☀️ 浅色模式";
+    });
+  }
+
+  function toggleDark() {
+    document.body.classList.toggle("dark");
+    const btn = document.getElementById("dark-btn");
+    const isDark = document.body.classList.contains("dark");
+    btn.textContent = isDark ? "☀️ 浅色模式" : "🌙 深色模式";
+    localStorage.setItem("darkMode", isDark);
+  }
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll(".fade-in").forEach(function(el) {
+    observer.observe(el);
+  });
+</script>
 </body>
 </html>
